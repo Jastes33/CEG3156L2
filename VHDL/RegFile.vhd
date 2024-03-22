@@ -1,0 +1,225 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+Entity RegFile is
+    Port(
+        RegWrite, Clk, Reset : in std_logic;
+        RD, RS, RT : in std_logic_vector(4 downto 0);
+        RDData1, RDData2, RV : out std_logic_vector(31 downto 0);
+        L,H, WData : in std_logic_vector(31 downto 0));
+End RegFile;
+
+Architecture rtl of RegFile is
+    type RegArrayType is array(0 to 31) of std_logic_vector(31 downto 0);
+    signal RegArray : RegArrayType;
+    
+    Begin
+        writeReg: process(Clk, Reset, RegWrite)
+            begin
+                if rising_edge(CLK) and RegWrite = '1' then
+                    case RD is
+                        when "00001" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "00010" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "00011" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "00100" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "00101" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "00110" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "00111" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "01000" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "01001" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "01010" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "01011" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "01100" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "01101" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "01110" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "01111" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "10000" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "10001" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "10010" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "10011" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "10100" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "10101" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "10110" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "10111" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "11000" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "11001" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "11010" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "11110" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when "11111" =>
+                            RegArray(to_integer(unsigned(RD))) <= WData;
+                        when others => null;
+                    end case;
+                    RegArray(27)<= L;
+                    RegArray(28)<= H;
+                end if;
+        end process;
+
+        readReg: process(Clk, RS)
+            begin
+                case RS is
+                    when "00001" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "00010" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "00011" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "00100" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "00101" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "00110" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "00111" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "01000" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "01001" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "01010" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "01011" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "01100" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "01101" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "01110" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "01111" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "10000" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "10001" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "10010" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "10011" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "10100" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "10101" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "10110" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "10111" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "11000" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "11001" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "11010" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "11011" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "11100" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "11101" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "11110" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when "11111" =>
+                        RDData1 <= RegArray(to_integer(unsigned(RS)));
+                    when others => null;
+                end case;
+        end process;
+
+        readReg2: process(Clk, RT)
+            begin
+                case RT is
+                    when "00001" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "00010" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "00011" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "00100" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "00101" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "00110" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "00111" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "01000" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "01001" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "01010" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "01011" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "01100" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "01101" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "01110" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "01111" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "10000" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "10001" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "10010" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "10011" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "10100" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "10101" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "10110" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "10111" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "11000" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "11001" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "11010" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "11011" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "11100" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "11101" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "11110" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when "11111" =>
+                        RDData2 <= RegArray(to_integer(unsigned(RT)));
+                    when others => null;
+                end case;
+        end process;
+
+        RegArray(0) <= X"00000000";
+        RegArray(29) <= X"000000FC";
+        RV <= RegArray(1);
+End rtl;

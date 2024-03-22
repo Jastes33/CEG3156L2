@@ -1,0 +1,141 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+Entity ControlUnit is 
+    Port ( 
+        clk : in std_logic;
+        reset : in std_logic;
+        opcode : in std_logic_vector(5 downto 0);
+        RegDst : out std_logic;
+        Branch : out std_logic;
+        MemRead : out std_logic;
+        MemtoReg : out std_logic;
+        ALUOp : out std_logic_vector(1 downto 0);
+        MemWrite : out std_logic;
+        ALUSrc : out std_logic;
+        RegWrite : out std_logic
+        Jump : out std_logic
+    );
+End ControlUnit;
+
+Architecture Behavioral of ControlUnit is
+    begin
+        process(clk, reset)
+            when rising_edge(clk) then
+                if reset = '1' then
+                    RegDst <= '0';
+                    Branch <= '0';
+                    MemRead <= '0';
+                    MemtoReg <= '0';
+                    ALUOp <= "00";
+                    MemWrite <= '0';
+                    ALUSrc <= '0';
+                    RegWrite <= '0';
+                    Jump <= '0';
+                else
+                    case opcode is
+                        when "000000" => -- R-type
+                            RegDst <= '1';
+                            Branch <= '0';
+                            MemRead <= '0';
+                            MemtoReg <= '0';
+                            ALUOp <= "11";
+                            MemWrite <= '0';
+                            ALUSrc <= '0';
+                            RegWrite <= '1';
+                            Jump <= '0';
+                        when "000100" => -- beq
+                            RegDst <= '0';
+                            Branch <= '1';
+                            MemRead <= '0';
+                            MemtoReg <= '0';
+                            ALUOp <= "01";
+                            MemWrite <= '0';
+                            ALUSrc <= '0';
+                            RegWrite <= '0';
+                            Jump <= '0';
+                        when "100011" => -- lw
+                            RegDst <= '0';
+                            Branch <= '0';
+                            MemRead <= '1';
+                            MemtoReg <= '1';
+                            ALUOp <= "00";
+                            MemWrite <= '0';
+                            ALUSrc <= '1';
+                            RegWrite <= '1';
+                            Jump <= '0';
+                        when "101011" => -- sw
+                            RegDst <= '0';
+                            Branch <= '0';
+                            MemRead <= '0';
+                            MemtoReg <= '0';
+                            ALUOp <= "00";
+                            MemWrite <= '1';
+                            ALUSrc <= '1';
+                            RegWrite <= '0';
+                            Jump <= '0';
+                        when "100000" => -- add
+                            RegDst <= '1';
+                            Branch <= '0';
+                            MemRead <= '0';
+                            MemtoReg <= '0';
+                            ALUOp <= "00";
+                            MemWrite <= '0';
+                            ALUSrc <= '0';
+                            RegWrite <= '1';
+                            Jump <= '0';
+                        when "100010" => -- sub
+                            RegDst <= '1';
+                            Branch <= '0';
+                            MemRead <= '0';
+                            MemtoReg <= '0';
+                            ALUOp <= "01";
+                            MemWrite <= '0';
+                            ALUSrc <= '0';
+                            RegWrite <= '1';
+                            Jump <= '0';
+                        when "100101" => -- or
+                            RegDst <= '1';
+                            Branch <= '0';
+                            MemRead <= '0';
+                            MemtoReg <= '0';
+                            ALUOp <= "11";
+                            MemWrite <= '0';
+                            ALUSrc <= '0';
+                            RegWrite <= '1';
+                            Jump <= '0';
+                        when "100100" => -- and
+                            RegDst <= '1';
+                            Branch <= '0';
+                            MemRead <= '0';
+                            MemtoReg <= '0';
+                            ALUOp <= "11";
+                            MemWrite <= '0';
+                            ALUSrc <= '0';
+                            RegWrite <= '1';
+                            Jump <= '0';
+                        when "000010" => -- jump
+                            RegDst <= '0';
+                            Branch <= '0';
+                            MemRead <= '0';
+                            MemtoReg <= '0';
+                            ALUOp <= "00";
+                            MemWrite <= '0';
+                            ALUSrc <= '0';
+                            RegWrite <= '0';
+                            Jump <= '1';
+                        when others =>
+                            RegDst <= '0';
+                            Branch <= '0';
+                            MemRead <= '0';
+                            MemtoReg <= '0';
+                            ALUOp <= "00";
+                            MemWrite <= '0';
+                            ALUSrc <= '0';
+                            RegWrite <= '0';
+                            Jump <= '0';
+                    end case;
+                end if;
+        end process;
+end Behavioral;
+

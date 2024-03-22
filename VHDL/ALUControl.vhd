@@ -1,0 +1,58 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+Entity ALUControl is
+    Port ( 
+        ALUOp : in std_logic_vector(1 downto 0);
+        Funct : in std_logic_vector(5 downto 0);
+        opcode : out std_logic_vector(3 downto 0)
+    );
+End ALUControl;
+
+Architecture rtl of ALUControl is
+    Begin
+        process(ALUOp, Funct)
+            Begin
+                case ALUOp is
+                    when "00" => --add
+                        opcode <= "0000";
+                    when "01" => --sub
+                        opcode <= "0001";
+                    when "10" => --set on less than
+                        opcode  <= "1100";
+                    when "11" => --determined by funct code
+                        case Funct is 
+                            when "100000" => --add(20h)
+                                opcode <= "0000";
+                            when "100010" => --sub(22h)
+                                opcode <= "0001";
+                            when "011000" => --mult(18h)
+                                opcode <= "0010";
+                            when "011010" => --div(1ah)
+                                opcode <= "0011";
+                            when "100100" => --and(24h)
+                                opcode <= "0100";
+                            when "100101" => --or(25h)
+                                opcode <= "0101";
+                            when "100111" => --nor(27h)
+                                opcode <= "0111";
+                            when "100110" => --xor(26h)
+                                opcode <= "0110";
+                           when "000000" => --sll(00h)
+                                opcode <= "1000";
+                            when "000010" => --srl(02h)
+                                opcode <= "1001";
+                            when "000100" => --asl(04h)
+                                opcode <= "1011";
+                            when "000110" => --asr(06h)
+                                opcode <= "1010";
+                            when "101010" => --slt(2ah)
+                                opcode <= "1100";
+                            when others => null;
+                        end case;
+                    when others => null;
+                end case;
+        end process;
+end rtl;
+            
+                        

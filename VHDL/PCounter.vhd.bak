@@ -1,0 +1,24 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+ENTITY PCounter is
+    PORT(
+        signal CLK, RST: in std_logic;
+        signal ReadAddress: in std_logic_vector(31 downto 0);
+        signal PC: out std_logic_vector(31 downto 0);
+    );
+END PCounter;
+
+Architecture rtl of PCounter is
+    signal PC: std_logic_vector(31 downto 0) : = X"00000000";
+
+    begin
+        process(CLK, RST)
+        begin
+            if RST = '1' then
+                PC <= X"00000000";
+            elsif falling_edge(CLK) then
+                PC <= ReadAddress;
+            end if;
+        end process;
+    end rtl;

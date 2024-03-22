@@ -1,0 +1,101 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+
+ENTITY ALU is
+    PORT(
+        opcode : in std_logic_vector(3 downto 0);
+        X,Y : in std_logic_vector(31 downto 0);
+        shamt : in std_logic_vector(4 downto 0);
+        zero : out std_logic;
+        R, L,H : out std_logic_vector(31 downto 0));
+END ALU;
+
+Architecture rtl of ALU is
+
+    Begin
+        operation : process(opcode, X, Y)
+            variable result, quotient, remainder : std_logic_vector(31 downto 0);
+            variable product : std_logic_vector(63 downto 0);
+
+            Begin
+                case opcode is
+                    when "0000" => --add
+                        result := X + Y;
+
+                    when "0001" => --sub
+                        result := X - Y;
+
+                    when "0010" => --mul
+                        product := X * Y;
+                        H <= product(63 downto 32);
+                        L <= product(31 downto 0);
+                        result := product(31 downto 0);
+                        
+                    when "0011" => --div
+                        quotient := signed(X) / signed(Y);
+                        remainder := signed(X) rem signed(Y);
+                        H <= quotient(31 downto 0);
+                        L <= remainder(31 downto 0);
+                        result := quotient(31 downto 0);
+
+                    when "0100" => --and
+                        result := X and Y;
+
+                    when "0101" => --or
+                        result := X or Y;
+
+                    when "0110" => --xor
+                        result := X xor Y;
+
+                    when "0111" => --nor
+                        result := X nor Y;
+
+                    when "1000" => --lsl (logical shift left)
+                        result := X sll to_integer(unsigned(shamt)); 
+
+                    when "1001" => --lsr (logical shift right)
+                        result := X srl to_integer(unsigned(shamt));
+
+                    when "1010" => --asr (arithmetic shift right)
+                        result := X sra to_integer(unsigned(shamt)); 
+
+                    when "1011" => --asl (arithmetic shift left)
+                        result := x sla to_integer(unsigned(shamt));
+                    
+                    when "1100" => --slt (set on less than)
+                        if signed(X) < signed(Y) then
+                            result := X"00000001";
+                        else
+                            result := X"00000000";
+                        end if;
+
+                    when "1101" => --sgt (set on greater than)
+                        if signed(X) > signed(Y) then
+                            result := X"00000001";
+                        else
+                            result := X"00000000";
+                        end if;
+
+                    when "1110" => --seq (set on equal)
+                        if X = Y then
+                            result := X"00000001";
+                        else
+                            result := X"00000000";
+                        end if;
+
+                    when others => 
+                        result := (others => 'X');  
+
+                end case;
+
+                if result = X"00000000" then
+                    zero <= '1';
+                else
+                    zero <= '0';
+                end if;
+
+                R <= result;
+        end process;
+end rtl;
